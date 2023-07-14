@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Integration.fxml"));
             Scene cena = new Scene(loader.load());
@@ -20,6 +20,7 @@ public class Main extends Application {
             e.printStackTrace();
          }
     }
+
     public static void main(String[] args){
 
         launch(args);

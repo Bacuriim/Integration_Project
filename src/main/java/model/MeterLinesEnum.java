@@ -1,18 +1,18 @@
 package model;
 
-public enum LinhasEnum {
+public enum MeterLinesEnum {
 
     CRONOS("Cronos"),
     ARES("Ares");
+
     private final String name;
 
-    LinhasEnum(String name) {
+    MeterLinesEnum(String name) {
         this.name = name;
     }
+
     @Override
-
-    public String toString(){
-
+    public String toString() {
         return name;
     }
 }
