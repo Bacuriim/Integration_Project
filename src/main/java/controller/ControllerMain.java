@@ -7,7 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import model.CategorysEnum;
+import model.CategoryEnum;
 import model.MeterLinesEnum;
 import model.MeterModelsEnum;
 
@@ -46,8 +46,8 @@ public class ControllerMain implements Initializable {
             case "Ares":
                 TreeItem<String> rootFirst = new TreeItem<>(MeterLinesEnum.ARES.toString());
                 treeView.setRoot(rootFirst);
-                TreeItem<String> rootTB = new TreeItem<>(CategorysEnum.ARES_TB.toString());
-                TreeItem<String> rootTHS = new TreeItem<>(CategorysEnum.ARES_THS.toString());
+                TreeItem<String> rootTB = new TreeItem<>(CategoryEnum.ARES_TB.toString());
+                TreeItem<String> rootTHS = new TreeItem<>(CategoryEnum.ARES_THS.toString());
 
                 rootFirst.getChildren().addAll(rootTB,rootTHS);
 
@@ -71,9 +71,9 @@ public class ControllerMain implements Initializable {
             case "Cronos":
                 TreeItem<String> rootSecond = new TreeItem<>(MeterLinesEnum.CRONOS.toString());
                 treeView.setRoot(rootSecond);
-                TreeItem<String> rootCO = new TreeItem<>(CategorysEnum.CRONOS_OLD.toString());
-                TreeItem<String> rootCl = new TreeItem<>(CategorysEnum.CRONOS_L.toString());
-                TreeItem<String> rootCNG = new TreeItem<>(CategorysEnum.CRONOS_NG.toString());
+                TreeItem<String> rootCO = new TreeItem<>(CategoryEnum.CRONOS_OLD.toString());
+                TreeItem<String> rootCl = new TreeItem<>(CategoryEnum.CRONOS_L.toString());
+                TreeItem<String> rootCNG = new TreeItem<>(CategoryEnum.CRONOS_NG.toString());
 
                 rootSecond.getChildren().addAll(rootCO , rootCl , rootCNG);
 
