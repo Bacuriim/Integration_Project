@@ -38,6 +38,7 @@ public class ControllerMain implements Initializable {
     }
 
     private void openTreeView() {
+        tpLine.setExpanded(false);
         tpModel.setDisable(false);
         tpModel.setExpanded(true);
 
