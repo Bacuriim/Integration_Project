@@ -41,7 +41,7 @@ public class ControllerMain implements Initializable {
         comboBoxSelect();
     }
 
-    private void comboBoxSelect(){
+    private void comboBoxSelect() {
         List<MeterLineEntity> lineList = session.createQuery("FROM MeterLineEntity").list();
 
         cbbLine.setItems(FXCollections.observableArrayList(lineList));
