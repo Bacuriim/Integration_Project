@@ -23,21 +23,6 @@
                     </descriptorRefs>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <configuration>
-                    <mainClass>main.Main</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 
@@ -57,7 +42,7 @@
                         <version>1.6.0</version>
                         <configuration>
                             <mainClass>main.Main</mainClass>
-                            <executable>ISCC.exe</executable>
+                            <executable>IntegrationProject.exe</executable>
                             <arguments>
                                 <argument>IntegrationProject3.iss</argument>
                             </arguments>
