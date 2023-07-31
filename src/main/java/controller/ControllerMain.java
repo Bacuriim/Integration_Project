@@ -4,10 +4,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import ORM.MeterCategoryEntity;
-import ORM.MeterModelEntity;
+import model.MeterCategoryEntity;
+import model.MeterModelEntity;
 import connection.HibernateConnection;
-import ORM.MeterLineEntity;
+import model.MeterLineEntity;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
