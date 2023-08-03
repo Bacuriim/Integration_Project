@@ -21,7 +21,6 @@
                     <bundleArguments>
                         <identifier>UPDATE-DETECTION</identifier>
                         <installdirChooser>true</installdirChooser>
-                        <icon>${project.basedir}/src/main/deploy/package/windows/Integration_Project-1.0-SNAPSHOT.ico</icon>
                     </bundleArguments>
                     <additionalAppResources>${project.basedir}/src/main/resources</additionalAppResources>
                 </configuration>

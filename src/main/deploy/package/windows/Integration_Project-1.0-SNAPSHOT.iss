@@ -27,7 +27,7 @@ SolidCompression=yes
 PrivilegesRequired=lowest
 SetupIconFile=Integration_Project-1.0-SNAPSHOT/Integration_Project-1.0-SNAPSHOT.ico
 UninstallDisplayIcon={app}/Integration_Project-1.0-SNAPSHOT.ico
-UninstallDisplayName=Integration_Project-1.0-SNAPSHOT
+UninstallDisplayName=uninstalller
 WizardImageStretch=yes
 WizardSmallImageFile=Integration_Project-1.0-SNAPSHOT-setup-icon.bmp
 ArchitecturesInstallIn64BitMode=
@@ -51,4 +51,4 @@ Filename: "{app}\Integration_Project-1.0-SNAPSHOT.exe"; Description:"{cm:LaunchP
 Filename: "{app}\Integration_Project-1.0-SNAPSHOT.exe"; Parameters:"-install  -svcName ""Integration_Project-1.0-SNAPSHOT"" -svcDesc ""Integration_Project-1.0-SNAPSHOT"" -mainExe ""Integration_Project-1.0-SNAPSHOT.exe"" ";
 
 [UninstallRun]
-Filename: "{app}\Integration_Project-1.0-SNAPSHOT.exe "; Parameters: "-uninstall -svcName IntegrationProject-1.0 -stopOnUninstall";
+Filename: "{app}\uninstaller"; Parameters: "-uninstall -svcName Integration_Project-1.0-SNAPSHOT -stopOnUninstall";
