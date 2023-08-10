@@ -1,6 +1,6 @@
 package controller;
 
-import connection.HibernateConnection;
+import configuration.HibernateConfiguration;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,19 +31,17 @@ public class ControllerMain implements Initializable {
     @FXML
     private Accordion accordion;
 
-    private final Session session = HibernateConnection.buildSessionFactory().openSession();
+    private final Session session = HibernateConfiguration.buildSessionFactory().openSession();
 
     @Override
     public void initialize(URL location,ResourceBundle resources) {
         accordion.setExpandedPane(tpLine);
         tpModel.setDisable(true);
-
         comboBoxSelect();
     }
 
     private void comboBoxSelect() {
         List<MeterLineEntity> lineList = session.createQuery("FROM MeterLineEntity").list();
-
         cbbLine.setItems(FXCollections.observableArrayList(lineList));
         cbbLine.valueProperty().addListener(((observable, oldValue, newValue) -> openTreeView(newValue)));
     }
@@ -52,18 +50,15 @@ public class ControllerMain implements Initializable {
         tpLine.setExpanded(false);
         tpModel.setDisable(false);
         tpModel.setExpanded(true);
-
         List<MeterCategoryEntity> meterCategoryEntityList = session.createQuery(String.format("FROM MeterCategoryEntity WHERE line_id = '%s'",selectedLine)).list();
         TreeItem showTreeView = new TreeItem<>(selectedLine);
         showTreeView.setExpanded(true);
-
-       meterCategoryEntityList.forEach((category) -> {
+        meterCategoryEntityList.forEach((category) -> {
             TreeItem<MeterCategoryEntity> categoryItem = new TreeItem<>(category);
             showTreeView.getChildren().add(categoryItem);
-
             List<MeterModelEntity> meterModelEntityList = session.createQuery(String.format("FROM MeterModelEntity WHERE category_id = '%s'",category)).list();
             meterModelEntityList.forEach((model) -> categoryItem.getChildren().add(new TreeItem(model)));
-       });
-       treeView.setRoot(showTreeView);
+        });
+        treeView.setRoot(showTreeView);
     }
 }
