@@ -1,6 +1,9 @@
 package controller;
 
-import connection.HibernateConnection;
+import configuration.HibernateConfiguration;
+import DAO.MeterCategoryDAO;
+import DAO.MeterLineDAO;
+import DAO.MeterModelDAO;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,19 +34,20 @@ public class ControllerMain implements Initializable {
     @FXML
     private Accordion accordion;
 
-    private final Session session = HibernateConnection.buildSessionFactory().openSession();
+    private final Session session = HibernateConfiguration.buildSessionFactory().openSession();
+    private final MeterLineDAO meterLineDAO = new MeterLineDAO(session);
+    private final MeterCategoryDAO meterCategoryDAO = new MeterCategoryDAO(session);
+    private final MeterModelDAO meterModelDAO = new MeterModelDAO(session);
 
     @Override
     public void initialize(URL location,ResourceBundle resources) {
         accordion.setExpandedPane(tpLine);
         tpModel.setDisable(true);
-
         comboBoxSelect();
     }
 
     private void comboBoxSelect() {
-        List<MeterLineEntity> lineList = session.createQuery("FROM MeterLineEntity").list();
-
+        List<MeterLineEntity> lineList = meterLineDAO.getAllMeterLines();
         cbbLine.setItems(FXCollections.observableArrayList(lineList));
         cbbLine.valueProperty().addListener(((observable, oldValue, newValue) -> openTreeView(newValue)));
     }
@@ -53,17 +57,18 @@ public class ControllerMain implements Initializable {
         tpModel.setDisable(false);
         tpModel.setExpanded(true);
 
-        List<MeterCategoryEntity> meterCategoryEntityList = session.createQuery(String.format("FROM MeterCategoryEntity WHERE line_id = '%s'",selectedLine)).list();
+        List<MeterCategoryEntity> categoryList = meterCategoryDAO.getCategoriesForLine(selectedLine);
         TreeItem showTreeView = new TreeItem<>(selectedLine);
         showTreeView.setExpanded(true);
 
-       meterCategoryEntityList.forEach((category) -> {
+        categoryList.forEach((category) -> {
             TreeItem<MeterCategoryEntity> categoryItem = new TreeItem<>(category);
             showTreeView.getChildren().add(categoryItem);
 
-            List<MeterModelEntity> meterModelEntityList = session.createQuery(String.format("FROM MeterModelEntity WHERE category_id = '%s'",category)).list();
+            List<MeterModelEntity> meterModelEntityList = meterModelDAO.getModelsForCategory(category);
+
             meterModelEntityList.forEach((model) -> categoryItem.getChildren().add(new TreeItem(model)));
-       });
-       treeView.setRoot(showTreeView);
+        });
+        treeView.setRoot(showTreeView);
     }
 }
