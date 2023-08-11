@@ -1,18 +1,21 @@
 package controller;
 
-import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import model.MeterCategoryEntity;
-import model.MeterModelEntity;
-import connection.HibernateConnection;
-import model.MeterLineEntity;
+import configuration.HibernateConfiguration;
+import DAO.MeterCategoryDAO;
+import DAO.MeterLineDAO;
+import DAO.MeterModelDAO;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import model.MeterCategoryEntity;
+import model.MeterLineEntity;
+import model.MeterModelEntity;
 import org.hibernate.Session;
+
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class ControllerMain implements Initializable {
 
@@ -31,25 +34,30 @@ public class ControllerMain implements Initializable {
     @FXML
     private Accordion accordion;
 
-    public final Session session = HibernateConnection.buildSessionFactory().openSession();
+    private final Session session = HibernateConfiguration.buildSessionFactory().openSession();
+    private final MeterLineDAO meterLineDAO = new MeterLineDAO(session);
+    private final MeterCategoryDAO meterCategoryDAO = new MeterCategoryDAO(session);
+    private final MeterModelDAO meterModelDAO = new MeterModelDAO(session);
 
     @Override
     public void initialize(URL location,ResourceBundle resources) {
         accordion.setExpandedPane(tpLine);
         tpModel.setDisable(true);
-        openComboBox();
+        comboBoxSelect();
     }
-    private void openComboBox(){
-        List<MeterLineEntity> lineList = session.createQuery("FROM MeterLineEntity").list();
+
+    private void comboBoxSelect() {
+        List<MeterLineEntity> lineList = meterLineDAO.getAllMeterLines();
         cbbLine.setItems(FXCollections.observableArrayList(lineList));
         cbbLine.valueProperty().addListener(((observable, oldValue, newValue) -> openTreeView(newValue)));
     }
+
     private void openTreeView(MeterLineEntity selectedLine) {
         tpLine.setExpanded(false);
         tpModel.setDisable(false);
         tpModel.setExpanded(true);
 
-        List<MeterCategoryEntity> categoryList = session.createQuery(String.format("FROM MeterCategoryEntity WHERE line_id = '%s'",selectedLine)).list();
+        List<MeterCategoryEntity> categoryList = meterCategoryDAO.getCategoriesForLine(selectedLine);
         TreeItem showTreeView = new TreeItem<>(selectedLine);
         showTreeView.setExpanded(true);
 
@@ -57,8 +65,9 @@ public class ControllerMain implements Initializable {
             TreeItem<MeterCategoryEntity> categoryItem = new TreeItem<>(category);
             showTreeView.getChildren().add(categoryItem);
 
-            List<MeterModelEntity> modelList = session.createQuery(String.format("FROM MeterModelEntity WHERE category_id = '%s'",category)).list();
-            modelList.forEach((model) -> categoryItem.getChildren().add(new TreeItem(model)));
+            List<MeterModelEntity> meterModelEntityList = meterModelDAO.getModelsForCategory(category);
+
+            meterModelEntityList.forEach((model) -> categoryItem.getChildren().add(new TreeItem(model)));
         });
         treeView.setRoot(showTreeView);
     }
