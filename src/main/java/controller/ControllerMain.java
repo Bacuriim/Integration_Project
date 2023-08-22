@@ -8,9 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import com.br.eletra.model.MeterCategoryEntity;
-import com.br.eletra.model.MeterLineEntity;
-import com.br.eletra.model.MeterModelEntity;
+import com.br.eletra.models.MeterCategoryEntity;
+import com.br.eletra.models.MeterLineEntity;
+import com.br.eletra.models.MeterModelEntity;
 import org.hibernate.Session;
 
 import java.net.URL;
