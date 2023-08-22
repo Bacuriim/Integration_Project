@@ -1,16 +1,16 @@
 package controller;
 
-import configuration.HibernateConfiguration;
-import DAO.MeterCategoryDAO;
-import DAO.MeterLineDAO;
-import DAO.MeterModelDAO;
+import com.br.eletra.configuration.HibernateConfiguration;
+import com.br.eletra.DAO.MeterCategoryDAO;
+import com.br.eletra.DAO.MeterLineDAO;
+import com.br.eletra.DAO.MeterModelDAO;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import model.MeterCategoryEntity;
-import model.MeterLineEntity;
-import model.MeterModelEntity;
+import com.br.eletra.model.MeterCategoryEntity;
+import com.br.eletra.model.MeterLineEntity;
+import com.br.eletra.model.MeterModelEntity;
 import org.hibernate.Session;
 
 import java.net.URL;
