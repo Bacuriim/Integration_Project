@@ -1,6 +1,5 @@
 package controller;
 
-import com.br.eletra.DAO.MeterModelDAO;
 import com.br.eletra.models.MeterCategoryEntity;
 import com.br.eletra.models.MeterLineEntity;
 import com.br.eletra.models.MeterModelEntity;
