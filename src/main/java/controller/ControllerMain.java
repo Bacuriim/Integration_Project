@@ -1,8 +1,5 @@
 package controller;
 
-import com.br.eletra.configuration.HibernateConfiguration;
-import com.br.eletra.DAO.MeterCategoryDAO;
-import com.br.eletra.DAO.MeterLineDAO;
 import com.br.eletra.DAO.MeterModelDAO;
 import com.br.eletra.models.MeterCategoryEntity;
 import com.br.eletra.models.MeterLineEntity;
@@ -11,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import org.hibernate.Session;
 import service.MeterCategoryService;
 import service.MeterLineService;
 import service.MeterModelService;
@@ -40,11 +36,6 @@ public class ControllerMain implements Initializable {
     MeterLineService meterLineService = new MeterLineService();
     MeterCategoryService meterCategoryService = new MeterCategoryService();
     MeterModelService meterModelService = new MeterModelService();
-
-    private final Session session = HibernateConfiguration.buildSessionFactory().openSession();
-    private final MeterLineDAO meterLineDAO = new MeterLineDAO(session);
-    private final MeterCategoryDAO meterCategoryDAO = new MeterCategoryDAO(session);
-    private final MeterModelDAO meterModelDAO = new MeterModelDAO(session);
 
     @Override
     public void initialize(URL location,ResourceBundle resources) {
