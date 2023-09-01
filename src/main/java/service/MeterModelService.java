@@ -1,9 +1,9 @@
 package service;
 
-import com.br.eletra.models.MeterCategoryEntity;
-import com.br.eletra.models.MeterModelEntity;
+import dto.ModelDTO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import dto.CategoryDTO;
 import org.glassfish.jersey.client.ClientConfig;
 
 import javax.ws.rs.client.Client;
@@ -20,21 +20,16 @@ public class MeterModelService {
 
     private static final String BASE_URL = "http://localhost:4455/api/models";
 
-    public List<MeterModelEntity> getAllMeterModels (MeterCategoryEntity category){
+    public List<ModelDTO> getAllMeterModels(CategoryDTO category){
         Client client = ClientBuilder.newClient(new ClientConfig());
-        WebTarget myResource = client.target(BASE_URL);
+        WebTarget myResource = client.target(BASE_URL + "/" + category.getCategoryName());
         Invocation.Builder builder = myResource.request(MediaType.APPLICATION_JSON);
         Response response = builder.get();
         Gson gsonMod = new Gson();
-        Type ModelListType = new TypeToken<List<MeterModelEntity>>() {
+        Type ModelListType = new TypeToken<List<ModelDTO>>() {
         }.getType();
-        List<MeterModelEntity> meterList = gsonMod.fromJson(response.readEntity(String.class), ModelListType);
-        List<MeterModelEntity> modList = new ArrayList<>();
-        for (MeterModelEntity model : meterList) {
-            if(model.getCategory().equals(category.toString())){
-                modList.add(model);
-            }
-        }
+        List<ModelDTO> modList = gsonMod.fromJson(response.readEntity(String.class), ModelListType);
+        System.out.println(modList);
         return modList;
     }
 }
