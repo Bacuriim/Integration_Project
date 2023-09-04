@@ -29,7 +29,6 @@ public class MeterModelService {
         Type ModelListType = new TypeToken<List<ModelDTO>>() {
         }.getType();
         List<ModelDTO> modList = gsonMod.fromJson(response.readEntity(String.class), ModelListType);
-        System.out.println(modList);
         return modList;
     }
 }

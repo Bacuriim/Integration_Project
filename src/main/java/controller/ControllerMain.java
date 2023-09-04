@@ -10,8 +10,6 @@ import javafx.scene.control.*;
 import service.MeterCategoryService;
 import service.MeterLineService;
 import service.MeterModelService;
-
-import javax.sound.sampled.Line;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
