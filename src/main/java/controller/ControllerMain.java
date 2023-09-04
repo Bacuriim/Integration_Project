@@ -1,18 +1,15 @@
 package controller;
 
-import configuration.HibernateConfiguration;
-import DAO.MeterCategoryDAO;
-import DAO.MeterLineDAO;
-import DAO.MeterModelDAO;
+import dto.CategoryDTO;
+import dto.LineDTO;
+import dto.ModelDTO;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import model.MeterCategoryEntity;
-import model.MeterLineEntity;
-import model.MeterModelEntity;
-import org.hibernate.Session;
-
+import service.MeterCategoryService;
+import service.MeterLineService;
+import service.MeterModelService;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -23,21 +20,20 @@ public class ControllerMain implements Initializable {
     private TitledPane tpLine;
 
     @FXML
-    private ComboBox<MeterLineEntity> cbbLine;
+    private ComboBox<LineDTO> cbbLine;
 
     @FXML
     private TitledPane tpModel;
 
     @FXML
-    private TreeView<MeterLineEntity> treeView;
+    private TreeView<LineDTO> treeView;
 
     @FXML
     private Accordion accordion;
 
-    private final Session session = HibernateConfiguration.buildSessionFactory().openSession();
-    private final MeterLineDAO meterLineDAO = new MeterLineDAO(session);
-    private final MeterCategoryDAO meterCategoryDAO = new MeterCategoryDAO(session);
-    private final MeterModelDAO meterModelDAO = new MeterModelDAO(session);
+    MeterLineService meterLineService = new MeterLineService();
+    MeterCategoryService meterCategoryService = new MeterCategoryService();
+    MeterModelService meterModelService = new MeterModelService();
 
     @Override
     public void initialize(URL location,ResourceBundle resources) {
@@ -47,27 +43,26 @@ public class ControllerMain implements Initializable {
     }
 
     private void comboBoxSelect() {
-        List<MeterLineEntity> lineList = meterLineDAO.getAllMeterLines();
+        List<LineDTO> lineList = meterLineService.getAllMeterLines();
         cbbLine.setItems(FXCollections.observableArrayList(lineList));
         cbbLine.valueProperty().addListener(((observable, oldValue, newValue) -> openTreeView(newValue)));
     }
 
-    private void openTreeView(MeterLineEntity selectedLine) {
+    private void openTreeView(LineDTO selectedLine) {
         tpLine.setExpanded(false);
         tpModel.setDisable(false);
         tpModel.setExpanded(true);
 
-        List<MeterCategoryEntity> categoryList = meterCategoryDAO.getCategoriesForLine(selectedLine);
+        List<CategoryDTO> categoryList = meterCategoryService.getAllMeterCategories(selectedLine);
         TreeItem showTreeView = new TreeItem<>(selectedLine);
         showTreeView.setExpanded(true);
 
         categoryList.forEach((category) -> {
-            TreeItem<MeterCategoryEntity> categoryItem = new TreeItem<>(category);
+            TreeItem<CategoryDTO> categoryItem = new TreeItem<>(category);
             showTreeView.getChildren().add(categoryItem);
 
-            List<MeterModelEntity> meterModelEntityList = meterModelDAO.getModelsForCategory(category);
-
-            meterModelEntityList.forEach((model) -> categoryItem.getChildren().add(new TreeItem(model)));
+            List<ModelDTO> modelList = meterModelService.getAllMeterModels(category);
+            modelList.forEach((model) -> categoryItem.getChildren().add(new TreeItem(model)));
         });
         treeView.setRoot(showTreeView);
     }
