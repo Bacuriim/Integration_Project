@@ -26,13 +26,10 @@ public class MeterLineService {
         Invocation.Builder builder = myResource.request(MediaType.APPLICATION_JSON);
         Response response = builder.get();
         Gson gson = new Gson();
-        Type lineListType = new TypeToken <List<LineDTO>>() {}.getType();
-        List<LineDTO> list =  gson.fromJson(response.readEntity(String.class),lineListType);
-        List<LineDTO> meterList = new ArrayList<>();
-        for (LineDTO line : list) {
-            meterList.add(line);
-        }
-        return meterList;
+        Type lineListType = new TypeToken<List<LineDTO>>() {
+        }.getType();
+        List<LineDTO> list = gson.fromJson(response.readEntity(String.class), lineListType);
+        return list;
     }
 
 }
