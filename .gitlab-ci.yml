@@ -5,7 +5,7 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
   cache:
-    paths:
+    local:
       - .m2/repository/
       - target/
 
@@ -26,7 +26,7 @@ package:
   stage: package
   script: ./mvnw package
   artifacts:
-    paths:
+    local:
       - target/Integration_Project-1.0-SNAPSHOT.jar
 
 install:
@@ -39,3 +39,4 @@ deploy:
     - echo "Deploy concluído!"
   only: 
     - develop
+
