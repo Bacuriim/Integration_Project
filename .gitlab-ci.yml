@@ -11,8 +11,8 @@ cache:
 
 stages:
   - clean
-  - package
-  - install
+  - build
+  - test
   - deploy
 
 before_script:
@@ -20,23 +20,25 @@ before_script:
 
 clean:
   stage: clean
-  script: ./mvnw clean
+  script:
+    - ./mvnw clean
 
-package:
-  stage: package
-  script: ./mvnw package
+build:
+  stage: build
+  script:
+    - ./mvnw package
   artifacts:
     paths:
-      - target/Integration_Project-1.0-SNAPSHOT.jar
+      - target/*.jar
 
-install:
-  stage: install
-  script: ./mvnw install
+test:
+  stage: test
+  script:
+    - ./mvnw test
 
 deploy:
   stage: deploy
-  script: 
-    - echo "Deploy concluído!"
-  only: 
+  script:
+    - echo "Deployment completed!"
+  only:
     - develop
-
