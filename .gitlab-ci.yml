@@ -4,10 +4,10 @@ variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
-  cache:
-    local:
-      - .m2/repository/
-      - target/
+cache:
+  paths:
+    - .m2/repository/
+    - target/
 
 stages:
   - clean
@@ -26,7 +26,7 @@ package:
   stage: package
   script: ./mvnw package
   artifacts:
-    local:
+    paths:
       - target/Integration_Project-1.0-SNAPSHOT.jar
 
 install:
