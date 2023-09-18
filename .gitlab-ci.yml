@@ -1,7 +1,4 @@
-image:
-  - maven:3.6.3
-  - openjdk:8
-  - openjdk:11
+image: maven:3.6.3
 
 
 variables:
@@ -24,11 +21,13 @@ before_script:
 
 clean:
   stage: clean
+  image: openjdk:8
   script:
     - ./mvnw clean
 
 build:
   stage: build
+  image: openjdk:8
   script:
     - ./mvnw package
   artifacts:
@@ -37,6 +36,7 @@ build:
 
 test:
   stage: test
+  image: openjdk:8
   script:
     - ./mvnw test
 
