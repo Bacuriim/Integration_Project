@@ -21,13 +21,13 @@ before_script:
 
 clean:
   stage: clean
-  image: openjdk:8
+  image: openjdk:11
   script:
     - ./mvnw clean
 
 build:
   stage: build
-  image: openjdk:8
+  image: openjdk:11
   script:
     - apt-get update -qy
     - apt-get install -y openjfx
@@ -38,7 +38,7 @@ build:
 
 test:
   stage: test
-  image: openjdk:8
+  image: openjdk:11
   script:
     - ./mvnw test
 
