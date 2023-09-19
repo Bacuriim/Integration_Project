@@ -29,6 +29,8 @@ build:
   stage: build
   image: openjdk:8
   script:
+    - apt-get update -qy
+    - apt-get install -y openjfx
     - ./mvnw package
   artifacts:
     paths:
