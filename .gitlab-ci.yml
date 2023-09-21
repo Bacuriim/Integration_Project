@@ -1,42 +1,27 @@
 variables:
-  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-
-cache:
-  paths:
-    - .m2/repository/
-    - target/
+  # Define as variáveis de ambiente para o JDK 1.8 e o Maven 3.6.3
+  MAVEN_VERSION: "3.6.3"
+  MAVEN_HOME: "/opt/maven"
+  JAVA_HOME: "/usr/lib/jvm/java-8-openjdk-amd64"
+  PATH: "/opt/maven/bin:$PATH"
 
 stages:
   - clean
-  - build
-  - test
+  - package
   - deploy
-
-before_script:
-  - chmod +x mvnw
 
 clean:
   stage: clean
   script:
     - mvn clean
 
-build:
-  stage: build
+package:
+  stage: package
   script:
     - mvn package
-  artifacts:
-    paths:
-      - target/*.jar
-
-test:
-  stage: test
-  script:
-    - mvn test
 
 deploy:
   stage: deploy
   script:
-    - echo "Deployment completed!"
-  only:
-    - develop
+    # Coloque aqui os comandos de implantação do seu aplicativo
+    - echo "Implantação do aplicativo aqui"
