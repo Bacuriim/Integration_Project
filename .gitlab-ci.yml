@@ -6,21 +6,36 @@ variables:
   PATH: "/opt/maven/bin:$PATH"
 
 stages:
+  - check
   - clean
   - package
   - deploy
 
+check:
+  tags:
+    - Shell-Maven
+  stage: check
+  script:
+    - java -version
+    - mvn -version
+
 clean:
+  tags:
+    - Shell-Maven
   stage: clean
   script:
     - mvn clean
 
 package:
+  tags:
+    - Shell-Maven
   stage: package
   script:
     - mvn package
 
 deploy:
+  tags:
+    - Shell-Maven
   stage: deploy
   script:
     # Coloque aqui os comandos de implantação do seu aplicativo
