@@ -13,7 +13,7 @@ stages:
 
 check:
   tags:
-    - Shell-Maven
+    - shared-windows
   stage: check
   script:
     - java -version
@@ -21,21 +21,21 @@ check:
 
 clean:
   tags:
-    - Shell-Maven
+    - shared-windows
   stage: clean
   script:
     - mvn clean
 
 package:
   tags:
-    - Shell-Maven
+    - shared-windows
   stage: package
   script:
     - mvn package
 
 deploy:
   tags:
-    - Shell-Maven
+    - shared-windows
   stage: deploy
   script:
     # Coloque aqui os comandos de implantação do seu aplicativo
