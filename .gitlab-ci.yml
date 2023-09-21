@@ -1,12 +1,42 @@
-param 
-(
-  [Parameter(Mandatory=$true)] [String]$exepath
-)
+variables:
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 
-$exepath = "C:\dev\repos\git\Integration_Project\target\jfx\native\Integration_Project-1.0-SNAPSHOT.exe"
+cache:
+  paths:
+    - .m2/repository/
+    - target/
 
-$sharedDirectory = "\\EINSTEIN\Integration_Project-1.0-SNAPSHOT"
+stages:
+  - clean
+  - build
+  - test
+  - deploy
 
-mvn clean package
+before_script:
+  - chmod +x mvnw
 
-Copy-Item $exepath $sharedDirectory
+clean:
+  stage: clean
+  script:
+    - mvn clean
+
+build:
+  stage: build
+  script:
+    - mvn package
+  artifacts:
+    paths:
+      - target/*.jar
+
+test:
+  stage: test
+  script:
+    - mvn test
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deployment completed!"
+  only:
+    - develop
