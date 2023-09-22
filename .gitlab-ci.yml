@@ -3,5 +3,7 @@ stages:
 
 powershell_script:
   stage: build
+  tags: 
+    - Shell-Maven
   script:
     - powershell -ExecutionPolicy Bypass -File C:\Gitlab-Runner\builder.ps1
