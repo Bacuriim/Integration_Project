@@ -6,4 +6,4 @@ powershell_script:
   tags: 
     - Shell-Maven
   script:
-    - powershell -ExecutionPolicy Bypass -File C:\Gitlab-Runner\builder.ps1
+    - powershell -ExecutionPolicy Bypass -File "C:\Gitlab-Runner\builder.ps1"
