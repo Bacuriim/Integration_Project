@@ -8,3 +8,4 @@ powershell_script:
   script:
     - powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\Gitlab-Runner\builder.ps1
     - powershell -ExecutionPolicy Bypass -File C:\Gitlab-Runner\builder.ps1
+    #
