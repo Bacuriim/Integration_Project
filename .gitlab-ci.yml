@@ -1,44 +1,7 @@
-variables:
-  # Define as variáveis de ambiente para o JDK 1.8 e o Maven 3.6.3
-  MAVEN_VERSION: "3.6.3"
-  MAVEN_HOME: "/opt/maven"
-  JAVA_HOME: "/usr/lib/jvm/java-8-openjdk-amd64"
-  PATH: "/opt/maven/bin:$PATH"
-
 stages:
-  - check
-  - clean
-  - package
-  - deploy
+  - build
 
-check:
-  tags:
-    - Shell-Maven
-  stage: check
+powershell_script:
+  stage: build
   script:
-    - java -version
-    - mvn -version
-
-clean:
-  tags:
-    - Shell-Maven
-  stage: clean
-  script:
-    - mvn clean
-
-package:
-  tags:
-    - Shell-Maven
-  stage: package
-  script:
-    - mvn package
-
-deploy:
-  tags:
-    - Shell-Maven
-  stage: deploy
-  script:
-    # Coloque aqui os comandos de implantação do seu aplicativo
-    - echo "Implantação do aplicativo aqui"
-
-# test
+    - powershell -ExecutionPolicy Bypass -File C:\Gitlab-Runner\builder.ps1
