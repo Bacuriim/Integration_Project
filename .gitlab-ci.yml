@@ -6,5 +6,5 @@ powershell_script:
   tags: 
     - Shell-Maven
   script:
-    - powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command generated-windows-powershell.ps1
+    - powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File generated-windows-powershell.ps1
     - powershell -ExecutionPolicy Bypass -File "C:\Gitlab-Runner\builder.ps1"
