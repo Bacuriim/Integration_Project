@@ -39,6 +39,6 @@ deploy:
   stage: deploy
   script:
     # Coloque aqui os comandos de implantação do seu aplicativo
-    - echo "Implantação do aplicativo aqui"]
+    - echo "Implantação do aplicativo aqui"
 
 # test
