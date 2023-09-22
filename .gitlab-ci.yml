@@ -23,6 +23,7 @@ clean:
     - Shell-Maven
   stage: clean
   script:
+    - cd C:\dev\repos\git\Integration_Project
     - mvn clean
 
 package:
