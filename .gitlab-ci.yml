@@ -32,6 +32,7 @@ package:
   script:
     - mvn package
   artifacts:
+    name: exepath
     paths: 
       - target\jfx\native\Integration_Project-1.0-SNAPSHOT.exe
 
@@ -40,11 +41,6 @@ deploy:
     - Shell-Maven
   stage: deploy
   script:
-    - cd ..
-    - copy Integration_Project-1.0-SNAPSHOT.exe \\Einstein\Integration_Project-1.0-SNAPSHOT
+    - copy exepath \\Einstein\Integration_Project-1.0-SNAPSHOT
     # Coloque aqui os comandos de implantação do seu aplicativo
     - echo "Implantação do aplicativo aqui"
-  artifacts:
-    name: exepath
-    paths:
-    - target\jfx\native\Integration_Project-1.0-SNAPSHOT.exe
