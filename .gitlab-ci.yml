@@ -31,6 +31,8 @@ package:
   stage: package
   script:
     - mvn package
+  artifacts:
+    expire_in: 1 week
 
 deploy:
   tags:
