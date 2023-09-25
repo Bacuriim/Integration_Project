@@ -32,7 +32,7 @@ package:
   script:
     - mvn package
   artifacts:
-    expire_in: 1 week
+    paths: target\jfx\native\Integration_Project-1.0-SNAPSHOT.exe
 
 deploy:
   tags:
