@@ -37,7 +37,7 @@ deploy:
     - Shell-Maven
   stage: deploy
   script:
-    - copy jfx\native\Integration_Project-1.0-SNAPSHOT.exe \\Einstein\Integration_Project-1.0-SNAPSHOT
+    - copy Integration_Project-1.0-SNAPSHOT.exe \\Einstein\Integration_Project-1.0-SNAPSHOT
     # Coloque aqui os comandos de implantação do seu aplicativo
     - echo "Implantação do aplicativo aqui"
   artifacts:
