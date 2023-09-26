@@ -6,7 +6,7 @@ variables:
 
 stages:
   - check
-  - clean 
+  - clean
   - package
   - deploy
 
@@ -35,3 +35,14 @@ package:
     name: exepath
     paths: 
       - target\jfx\native\Integration_Project-1.0-SNAPSHOT.exe
+
+deploy:
+  tags:
+    - Shell-Maven
+  stage: deploy
+  script:
+    - copy target\jfx\native\Integration_Project-1.0-SNAPSHOT.exe \\Einstein\Integration_Project-1.0-SNAPSHOT
+    # Coloque aqui os comandos de implantação do seu aplicativo
+    - echo "Implantação do aplicativo aqui"
+
+  ##Teste
