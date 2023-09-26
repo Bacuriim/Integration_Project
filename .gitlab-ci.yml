@@ -1,0 +1,37 @@
+variables:
+  # Define as variáveis de ambiente para o JDK 1.8 e o Maven 3.6.3
+  MAVEN_VERSION: "3.6.3"
+  MAVEN_HOME: C:\apache-maven-4.0.0-alpha-7
+  JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0_51
+
+stages:
+  - check
+  - clean 
+  - package
+  - deploy
+
+check:
+  tags:
+    - Shell-Maven
+  stage: check
+  script:
+    - java -version
+    - mvn -version
+
+clean:
+  tags:
+    - Shell-Maven
+  stage: clean
+  script:
+    - mvn clean
+
+package:
+  tags:
+    - Shell-Maven
+  stage: package
+  script:
+    - mvn package
+  artifacts:
+    name: exepath
+    paths: 
+      - target\jfx\native\Integration_Project-1.0-SNAPSHOT.exe
