@@ -5,18 +5,9 @@ variables:
   JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0_51
 
 stages:
-  - check
   - clean
   - package
   - deploy
-
-check:
-  tags:
-    - Shell-Maven
-  stage: check
-  script:
-    - java -version
-    - mvn -version
 
 clean:
   tags:
@@ -44,5 +35,7 @@ deploy:
     - copy target\jfx\native\Integration_Project-1.0-SNAPSHOT.exe \\Einstein\Integration_Project-1.0-SNAPSHOT
     # Coloque aqui os comandos de implantação do seu aplicativo
     - echo "Implantação do aplicativo aqui"
+  only:
+    - master
 
   ##Teste
