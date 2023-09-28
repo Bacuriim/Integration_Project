@@ -2,12 +2,10 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import dto.CategoryDTO;
 import dto.LineDTO;
 import org.glassfish.jersey.client.ClientConfig;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
