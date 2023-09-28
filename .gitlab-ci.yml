@@ -5,18 +5,9 @@ variables:
   JAVA_HOME: C:\Program Files (x86)\Java\jdk1.8.0_51
 
 stages:
-  - check
   - clean
   - package
   - deploy
-
-check:
-  tags:
-    - Shell-Maven
-  stage: check
-  script:
-    - java -version
-    - mvn -version
 
 clean:
   tags:
