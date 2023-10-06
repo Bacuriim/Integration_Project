@@ -1,9 +1,14 @@
-package dto;
+package com.br.eletra.dto;
 
 public class LineDTO {
     private short id;
 
     private String lineName;
+
+    public LineDTO(String lineName , Short id) {
+        this.lineName = lineName;
+        this.id = id;
+    }
 
     public LineDTO(LineDTO lineName) {
         this.lineName = String.valueOf(lineName);
