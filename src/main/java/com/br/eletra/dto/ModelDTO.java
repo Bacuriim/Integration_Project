@@ -1,9 +1,14 @@
-package dto;
+package com.br.eletra.dto;
 
 public class ModelDTO {
     public String category;
     private short id;
     private String modelName;
+
+    public ModelDTO(String modelName , Short id) {
+        this.modelName = modelName;
+        this.id = id;
+    }
 
     public String toString() {
         return modelName;

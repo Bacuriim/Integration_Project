@@ -1,13 +1,11 @@
-package service;
+package com.br.eletra.service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import dto.CategoryDTO;
-import dto.LineDTO;
+import com.br.eletra.dto.LineDTO;
 import org.glassfish.jersey.client.ClientConfig;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -19,10 +17,10 @@ import javax.ws.rs.core.Response;
 public class MeterLineService {
 
     private static final String BASE_URL = "http://localhost:4455/api/lines";
+    Client client = ClientBuilder.newClient(new ClientConfig());
 
     public List<LineDTO> getAllMeterLines() {
-        Client client = ClientBuilder.newClient(new ClientConfig());
-        WebTarget myResource = client.target(BASE_URL);
+        WebTarget myResource = this.client.target(BASE_URL);
         Invocation.Builder builder = myResource.request(MediaType.APPLICATION_JSON);
         Response response = builder.get();
         Gson gson = new Gson();
@@ -32,4 +30,7 @@ public class MeterLineService {
         return list;
     }
 
+    public void setClient(Client client) {
+        this.client = client;
+    }
 }

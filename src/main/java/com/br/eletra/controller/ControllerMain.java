@@ -1,15 +1,15 @@
-package controller;
+package com.br.eletra.controller;
 
-import dto.CategoryDTO;
-import dto.LineDTO;
-import dto.ModelDTO;
+import com.br.eletra.dto.CategoryDTO;
+import com.br.eletra.dto.LineDTO;
+import com.br.eletra.dto.ModelDTO;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import service.MeterCategoryService;
-import service.MeterLineService;
-import service.MeterModelService;
+import com.br.eletra.service.MeterCategoryService;
+import com.br.eletra.service.MeterLineService;
+import com.br.eletra.service.MeterModelService;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
