@@ -47,9 +47,30 @@ public class MeterCategoryServiceTest {
     }
 
     @Test
-    public void getAllMeterCategoriesAndConvertToStringTest() {
+    public void getAllMeterCategoriesAndConvertToStringTest01() {
         String jsonResponse = "[\n" + "  {\n" + "    \"id\": 2,\n" + "    \"categoryName\": \"Cronos L\",\n" + "    \"line\": \"Cronos\"\n" + "  },\n" + "  {\n" + "    \"id\": 3,\n" + "    \"categoryName\": \"Cronos NG\",\n" + "    \"line\": \"Cronos\"\n" + "  },\n" + "  {\n" + "    \"id\": 4,\n" + "    \"categoryName\": \"Ares TB\",\n" + "    \"line\": \"Ares\"\n" + "  },\n" + "  {\n" + "    \"id\": 5,\n" + "    \"categoryName\": \"Ares THS\",\n" + "    \"line\": \"Ares\"\n" + "  },\n" + "  {\n" + "    \"id\": 1,\n" + "    \"categoryName\": \"Cronos Old\",\n" + "    \"line\": \"Cronos\"\n" + "  }\n" + "]";
         LineDTO mockLine = new LineDTO("Ares" , (short) 1);
+
+        when(response.readEntity(String.class)).thenReturn(jsonResponse);
+
+        List<CategoryDTO> result = service.getAllMeterCategories(mockLine);
+
+        assertNotNull(result);
+        assertEquals(5 , result.size());
+
+        CategoryDTO mockCategory = new CategoryDTO("Ares TB" , (short) 1);
+        assertEquals(1 , mockCategory.getId());
+        assertEquals("Ares TB" , mockCategory.getCategoryName());
+
+        verify(client).target(eq("http://localhost:4455/api/categories" + "/" + mockLine));
+        verify(webTarget).request(MediaType.APPLICATION_JSON);
+        verify(builder).get();
+    }
+
+    @Test
+    public void getAllMeterCategoriesAndConvertToStringTest02() {
+        String jsonResponse = "[\n" + "  {\n" + "    \"id\": 2,\n" + "    \"categoryName\": \"Cronos L\",\n" + "    \"line\": \"Cronos\"\n" + "  },\n" + "  {\n" + "    \"id\": 3,\n" + "    \"categoryName\": \"Cronos NG\",\n" + "    \"line\": \"Cronos\"\n" + "  },\n" + "  {\n" + "    \"id\": 4,\n" + "    \"categoryName\": \"Ares TB\",\n" + "    \"line\": \"Ares\"\n" + "  },\n" + "  {\n" + "    \"id\": 5,\n" + "    \"categoryName\": \"Ares THS\",\n" + "    \"line\": \"Ares\"\n" + "  },\n" + "  {\n" + "    \"id\": 1,\n" + "    \"categoryName\": \"Cronos Old\",\n" + "    \"line\": \"Cronos\"\n" + "  }\n" + "]";
+        LineDTO mockLine = new LineDTO("1" , (short) 1);
 
         when(response.readEntity(String.class)).thenReturn(jsonResponse);
 

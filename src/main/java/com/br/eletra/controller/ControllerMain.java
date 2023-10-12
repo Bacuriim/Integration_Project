@@ -17,23 +17,23 @@ import java.util.ResourceBundle;
 public class ControllerMain implements Initializable {
 
     @FXML
-    private TitledPane tpLine;
+    protected TitledPane tpLine;
 
     @FXML
-    private ComboBox<LineDTO> cbbLine;
+    protected ComboBox<LineDTO> cbbLine;
 
     @FXML
-    private TitledPane tpModel;
+    protected TitledPane tpModel;
 
     @FXML
-    private TreeView<LineDTO> treeView;
+    protected TreeView<LineDTO> treeView;
 
     @FXML
-    private Accordion accordion;
+    protected Accordion accordion;
 
-    MeterLineService meterLineService = new MeterLineService();
-    MeterCategoryService meterCategoryService = new MeterCategoryService();
-    MeterModelService meterModelService = new MeterModelService();
+    protected MeterLineService meterLineService = new MeterLineService();
+    protected MeterCategoryService meterCategoryService = new MeterCategoryService();
+    protected MeterModelService meterModelService = new MeterModelService();
 
     @Override
     public void initialize(URL location,ResourceBundle resources) {
@@ -42,13 +42,13 @@ public class ControllerMain implements Initializable {
         comboBoxSelect();
     }
 
-    private void comboBoxSelect() {
+    public void comboBoxSelect() {
         List<LineDTO> lineList = meterLineService.getAllMeterLines();
         cbbLine.setItems(FXCollections.observableArrayList(lineList));
         cbbLine.valueProperty().addListener(((observable, oldValue, newValue) -> openTreeView(newValue)));
     }
 
-    private void openTreeView(LineDTO selectedLine) {
+    protected void openTreeView(LineDTO selectedLine) {
         tpLine.setExpanded(false);
         tpModel.setDisable(false);
         tpModel.setExpanded(true);
