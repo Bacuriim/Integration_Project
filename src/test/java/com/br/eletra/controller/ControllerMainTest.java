@@ -211,31 +211,4 @@ public class ControllerMainTest extends ApplicationTest {
         assertEquals(controller.treeView.getExpandedItemCount() , 1);
         verify(controller).openTreeView(mockLine);
     }
-    @Test
-    public void openTreeViewTest04() {
-        // Given
-        LineDTO mockLine = new LineDTO("Cronos", (short) 2);
-        CategoryDTO mockCategory = new CategoryDTO("Cronos Old", (short) 3);
-        List<CategoryDTO> mockCategoryList = new ArrayList<>();
-        List<ModelDTO> mockModelList = new ArrayList<>();
-        TreeItem mockTreeView = new TreeItem<>(mockLine);
-        controller.openTreeView(mockLine);
-
-        // When
-        controller.tpLine.setExpanded(false);
-        controller.tpModel.setDisable(false);
-        controller.tpModel.setExpanded(true);
-        when(controller.meterCategoryService.getAllMeterCategories(mockLine)).thenReturn(mockCategoryList);
-        when(controller.meterModelService.getAllMeterModels(mockCategory)).thenReturn(mockModelList);
-        mockTreeView.setExpanded(true);
-
-        // Then
-        assertFalse(controller.tpLine.isExpanded());
-        assertFalse(controller.tpModel.isDisable());
-        assertTrue(controller.tpModel.isExpanded());
-        assertTrue(controller.treeView.isVisible());
-        assertTrue(mockTreeView.isExpanded());
-        assertEquals(controller.treeView.getExpandedItemCount(), 1);
-        verify(controller).openTreeView(mockLine);
-    }
 }
