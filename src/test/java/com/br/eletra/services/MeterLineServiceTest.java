@@ -2,6 +2,8 @@ package com.br.eletra.services;
 
 import com.br.eletra.dto.LineDTO;
 import com.br.eletra.service.MeterLineService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +14,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.lang.reflect.Type;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -42,18 +45,21 @@ public class MeterLineServiceTest {
 
     @Test
     public void getAllMeterLinesAndConvertToStringTest() {
-        String jsonResponse = "[{\"id\": 1, \"name\": \"Ares\"}, {\"id\": 2, \"name\": \"Cronos\"}]";
+        // Given
+        String jsonResponse = "[{\"id\":1,\"name\":\"Ares\"},{\"id\":2,\"name\":\"Cronos\"}]";
+        Gson mockGson = new Gson();
+        Type mockLineListType = new TypeToken<List<LineDTO>>() {
+        }.getType();
+
+        // When
         when(response.readEntity(String.class)).thenReturn(jsonResponse);
-
         List<LineDTO> result = service.getAllMeterLines();
+        List<LineDTO> mockList = mockGson.fromJson(response.readEntity(String.class) , mockLineListType);
 
+        // Then
         assertNotNull(result);
         assertEquals(2, result.size());
-
-        LineDTO line1 = new LineDTO("Ares" , (short) 1);
-        assertEquals(1, line1.getId());
-        assertEquals("Ares", line1.getLineName());
-
+        assertEquals(result.toString() , mockList.toString());
         verify(client).target(eq("http://localhost:4455/api/lines"));
         verify(webTarget).request(MediaType.APPLICATION_JSON);
         verify(builder).get();

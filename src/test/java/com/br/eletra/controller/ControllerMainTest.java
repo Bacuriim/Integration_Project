@@ -14,7 +14,6 @@ import org.mockito.Mockito;
 import org.testfx.framework.junit.ApplicationTest;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -56,31 +55,33 @@ public class ControllerMainTest extends ApplicationTest {
     public void comboBoxSelectTest01() {
         // Given
         List<LineDTO> mockList = new ArrayList<>();
+        LineDTO mockLine = new LineDTO("Ares" , (short) 1);
         Mockito.when(controller.meterLineService.getAllMeterLines()).thenReturn(mockList);
+        controller.comboBoxSelect();
 
         // When
-        controller.comboBoxSelect();
+        controller.openTreeView(mockLine);
 
         // Then
         assertEquals(FXCollections.observableArrayList(mockList), controller.cbbLine.getItems());
         verify(controller.meterLineService).getAllMeterLines();
     }
 
-    /**
-     * O que está sendo testado
-     */
     @Test
     public void comboBoxSelectTest02() {
         // Given
         List<LineDTO> mockList = new ArrayList<>();
+        mockList.add(new LineDTO("Ares" , (short) 1));
+        mockList.add(new LineDTO("Cronos" , (short) 2));
         Mockito.when(controller.meterLineService.getAllMeterLines()).thenReturn(mockList);
+        controller.comboBoxSelect();
+        controller.cbbLine.setValue(controller.cbbLine.getItems().get(0));
 
         // When
-        controller.comboBoxSelect();
+        controller.openTreeView(mockList.get(0));
 
         // Then
-        assertEquals(FXCollections.observableArrayList(mockList), controller.cbbLine.getItems());
-        verify(controller.meterLineService).getAllMeterLines();
+        verify(controller , times(2)).openTreeView(controller.cbbLine.getItems().get(0));
     }
 
     @Test
@@ -91,12 +92,13 @@ public class ControllerMainTest extends ApplicationTest {
         mockList.add(new LineDTO("Cronos" , (short) 2));
         Mockito.when(controller.meterLineService.getAllMeterLines()).thenReturn(mockList);
         controller.comboBoxSelect();
+        controller.cbbLine.setValue(controller.cbbLine.getItems().get(1));
 
         // When
-        controller.cbbLine.setValue(controller.cbbLine.getItems().get(0));
+        controller.openTreeView(mockList.get(0));
 
         // Then
-        verify(controller).openTreeView(controller.cbbLine.getItems().get(0));
+        verify(controller).openTreeView(controller.cbbLine.getItems().get(1));
     }
 
     @Test
@@ -104,28 +106,14 @@ public class ControllerMainTest extends ApplicationTest {
         // Given
         List<LineDTO> mockList = new ArrayList<>();
         mockList.add(new LineDTO("Ares" , (short) 1));
-        mockList.add(new LineDTO("Cronos" , (short) 2));
         Mockito.when(controller.meterLineService.getAllMeterLines()).thenReturn(mockList);
         controller.comboBoxSelect();
 
         // When
-        controller.cbbLine.setValue(controller.cbbLine.getItems().get(1));
+        controller.openTreeView(mockList.get(0));
 
         // Then
-        verify(controller).openTreeView(controller.cbbLine.getItems().get(1));
-    }
-
-    @Test
-    public void comboBoxSelectTest05() {
-        // Given
-        List<LineDTO> mockList = new ArrayList<>();
-        Mockito.when(controller.meterLineService.getAllMeterLines()).thenReturn(mockList);
-
-        // When
-        controller.comboBoxSelect();
-
-        // Then
-        assertTrue(controller.cbbLine.getItems().isEmpty());
+        assertFalse(controller.cbbLine.getItems().isEmpty());
     }
 
     @Test
@@ -133,9 +121,15 @@ public class ControllerMainTest extends ApplicationTest {
         // Given
         LineDTO mockLine = new LineDTO("Ares" , (short) 1);
         CategoryDTO mockCategory = new CategoryDTO("Ares TB" , (short) 1);
+        ModelDTO mockModel = new ModelDTO("Ares 7021", (short) 1 );
         List<CategoryDTO> mockCategoryList = new ArrayList<>();
+        mockCategoryList.add(mockCategory);
         List<ModelDTO> mockModelList = new ArrayList<>();
+        TreeItem mockTreeModel = new TreeItem<>(mockModel);
+        TreeItem mockTreeCategory = new TreeItem<>(mockCategory);
         TreeItem mockTreeView = new TreeItem<>(mockLine);
+        mockTreeView.getChildren().add(mockTreeCategory);
+        mockTreeCategory.getChildren().add(mockTreeModel);
         controller.openTreeView(mockLine);
 
         // When
@@ -146,14 +140,17 @@ public class ControllerMainTest extends ApplicationTest {
         when(controller.meterModelService.getAllMeterModels(mockCategory)).thenReturn(mockModelList);
         mockTreeView.setExpanded(true);
 
+
         // Then
         assertFalse(controller.tpLine.isExpanded());
         assertFalse(controller.tpModel.isDisable());
         assertTrue(controller.tpModel.isExpanded());
         assertTrue(controller.treeView.isVisible());
         assertTrue(mockTreeView.isExpanded());
+        assertEquals(controller.treeView.getTreeItem(0).getValue() , mockLine);
+        assertEquals(mockTreeView.getChildren().toString() , "[TreeItem [ value: " + mockCategory + " ]]");
+        assertEquals(mockTreeCategory.getChildren().toString() , "[TreeItem [ value: " + mockModel +" ]]");
         assertEquals(controller.treeView.getExpandedItemCount() , 1);
-        verify(controller).openTreeView(mockLine);
     }
 
     @Test
@@ -161,9 +158,15 @@ public class ControllerMainTest extends ApplicationTest {
         // Given
         LineDTO mockLine = new LineDTO("Cronos" , (short) 2);
         CategoryDTO mockCategory = new CategoryDTO("Cronos Old" , (short) 3);
+        ModelDTO mockModel = new ModelDTO("Cronos 6001-A", (short) 1 );
         List<CategoryDTO> mockCategoryList = new ArrayList<>();
+        mockCategoryList.add(mockCategory);
         List<ModelDTO> mockModelList = new ArrayList<>();
+        TreeItem mockTreeModel = new TreeItem<>(mockModel);
+        TreeItem mockTreeCategory = new TreeItem<>(mockCategory);
         TreeItem mockTreeView = new TreeItem<>(mockLine);
+        mockTreeView.getChildren().add(mockTreeCategory);
+        mockTreeCategory.getChildren().add(mockTreeModel);
         controller.openTreeView(mockLine);
 
         // When
@@ -180,8 +183,10 @@ public class ControllerMainTest extends ApplicationTest {
         assertTrue(controller.tpModel.isExpanded());
         assertTrue(controller.treeView.isVisible());
         assertTrue(mockTreeView.isExpanded());
+        assertEquals(controller.treeView.getTreeItem(0).getValue() , mockLine);
+        assertEquals(mockTreeView.getChildren().toString() , "[TreeItem [ value: " + mockCategory + " ]]");
+        assertEquals(mockTreeCategory.getChildren().toString() , "[TreeItem [ value: " + mockModel +" ]]");
         assertEquals(controller.treeView.getExpandedItemCount() , 1);
-        verify(controller).openTreeView(mockLine);
     }
 
     @Test
@@ -189,9 +194,15 @@ public class ControllerMainTest extends ApplicationTest {
         // Given
         LineDTO mockLine = new LineDTO("Cronos" , (short) 2);
         CategoryDTO mockCategory = new CategoryDTO("Cronos Old" , (short) 3);
+        ModelDTO mockModel = new ModelDTO("Cronos 6001-A", (short) 1 );
         List<CategoryDTO> mockCategoryList = new ArrayList<>();
+        mockCategoryList.add(mockCategory);
         List<ModelDTO> mockModelList = new ArrayList<>();
+        TreeItem mockTreeModel = new TreeItem<>(mockModel);
+        TreeItem mockTreeCategory = new TreeItem<>(mockCategory);
         TreeItem mockTreeView = new TreeItem<>(mockLine);
+        mockTreeView.getChildren().add(mockTreeCategory);
+        mockTreeCategory.getChildren().add(mockTreeModel);
         controller.openTreeView(mockLine);
 
         // When
@@ -208,7 +219,9 @@ public class ControllerMainTest extends ApplicationTest {
         assertTrue(controller.tpModel.isExpanded());
         assertTrue(controller.treeView.isVisible());
         assertTrue(mockTreeView.isExpanded());
+        assertEquals(controller.treeView.getTreeItem(0).getValue() , mockLine);
+        assertEquals(mockTreeView.getChildren().toString() , "[TreeItem [ value: " + mockCategory + " ]]");
+        assertEquals(mockTreeCategory.getChildren().toString() , "[TreeItem [ value: " + mockModel +" ]]");
         assertEquals(controller.treeView.getExpandedItemCount() , 1);
-        verify(controller).openTreeView(mockLine);
     }
 }

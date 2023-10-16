@@ -4,6 +4,8 @@ import com.br.eletra.dto.CategoryDTO;
 import com.br.eletra.dto.LineDTO;
 import com.br.eletra.service.MeterCategoryService;
 import com.br.eletra.service.MeterLineService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +17,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,20 +51,23 @@ public class MeterCategoryServiceTest {
 
     @Test
     public void getAllMeterCategoriesAndConvertToStringTest01() {
-        String jsonResponse = "[\n" + "  {\n" + "    \"id\": 2,\n" + "    \"categoryName\": \"Cronos L\",\n" + "    \"line\": \"Cronos\"\n" + "  },\n" + "  {\n" + "    \"id\": 3,\n" + "    \"categoryName\": \"Cronos NG\",\n" + "    \"line\": \"Cronos\"\n" + "  },\n" + "  {\n" + "    \"id\": 4,\n" + "    \"categoryName\": \"Ares TB\",\n" + "    \"line\": \"Ares\"\n" + "  },\n" + "  {\n" + "    \"id\": 5,\n" + "    \"categoryName\": \"Ares THS\",\n" + "    \"line\": \"Ares\"\n" + "  },\n" + "  {\n" + "    \"id\": 1,\n" + "    \"categoryName\": \"Cronos Old\",\n" + "    \"line\": \"Cronos\"\n" + "  }\n" + "]";
+        // Given
+        String jsonResponse = "[{\"id\":2,\"categoryName\":\"Cronos L\",\"line\":\"Cronos\"},{\"id\":3,\"categoryName\":\"Cronos NG\",\"line\": \"Cronos\"},{\"id\": 4,\"categoryName\":\"Ares TB\",\"line\": \"Ares\"},{\"id\":5,\"categoryName\":\"Ares THS\",\"line\":\"Ares\"},{\"id\":1,\"categoryName\":\"Cronos Old\",\"line\": \"Cronos\"}]";
         LineDTO mockLine = new LineDTO("Ares" , (short) 1);
+        Gson mockGson = new Gson();
+        Type mockCategoryListType = new TypeToken<List<CategoryDTO>>() {
+        }.getType();
 
+        // When
         when(response.readEntity(String.class)).thenReturn(jsonResponse);
-
         List<CategoryDTO> result = service.getAllMeterCategories(mockLine);
+        List<CategoryDTO> mockCategoryList = mockGson.fromJson(response.readEntity(String.class) , mockCategoryListType);
 
+        // Then
         assertNotNull(result);
+        assertEquals(response.readEntity(String.class) , jsonResponse);
         assertEquals(5 , result.size());
-
-        CategoryDTO mockCategory = new CategoryDTO("Ares TB" , (short) 1);
-        assertEquals(1 , mockCategory.getId());
-        assertEquals("Ares TB" , mockCategory.getCategoryName());
-
+        assertEquals(result.toString() , mockCategoryList.toString());
         verify(client).target(eq("http://localhost:4455/api/categories" + "/" + mockLine));
         verify(webTarget).request(MediaType.APPLICATION_JSON);
         verify(builder).get();
@@ -69,20 +75,24 @@ public class MeterCategoryServiceTest {
 
     @Test
     public void getAllMeterCategoriesAndConvertToStringTest02() {
-        String jsonResponse = "[\n" + "  {\n" + "    \"id\": 2,\n" + "    \"categoryName\": \"Cronos L\",\n" + "    \"line\": \"Cronos\"\n" + "  },\n" + "  {\n" + "    \"id\": 3,\n" + "    \"categoryName\": \"Cronos NG\",\n" + "    \"line\": \"Cronos\"\n" + "  },\n" + "  {\n" + "    \"id\": 4,\n" + "    \"categoryName\": \"Ares TB\",\n" + "    \"line\": \"Ares\"\n" + "  },\n" + "  {\n" + "    \"id\": 5,\n" + "    \"categoryName\": \"Ares THS\",\n" + "    \"line\": \"Ares\"\n" + "  },\n" + "  {\n" + "    \"id\": 1,\n" + "    \"categoryName\": \"Cronos Old\",\n" + "    \"line\": \"Cronos\"\n" + "  }\n" + "]";
+        // Given
+        String jsonResponse = "[{\"id\":2,\"categoryName\":\"Cronos L\",\"line\":\"Cronos\"},{\"id\":3,\"categoryName\":\"Cronos NG\",\"line\": \"Cronos\"},{\"id\": 4,\"categoryName\":\"Ares TB\",\"line\": \"Ares\"},{\"id\":5,\"categoryName\":\"Ares THS\",\"line\":\"Ares\"},{\"id\":1,\"categoryName\":\"Cronos Old\",\"line\": \"Cronos\"}]";
         LineDTO mockLine = new LineDTO("1" , (short) 1);
+        Gson mockGson = new Gson();
+        Type mockCategoryListType = new TypeToken<List<CategoryDTO>>() {
+        }.getType();
 
+
+        // When
         when(response.readEntity(String.class)).thenReturn(jsonResponse);
-
         List<CategoryDTO> result = service.getAllMeterCategories(mockLine);
+        List<CategoryDTO> mockCategoryList = mockGson.fromJson(response.readEntity(String.class) , mockCategoryListType);
 
+        // Then
         assertNotNull(result);
+        assertEquals(response.readEntity(String.class) , jsonResponse);
         assertEquals(5 , result.size());
-
-        CategoryDTO mockCategory = new CategoryDTO("Ares TB" , (short) 1);
-        assertEquals(1 , mockCategory.getId());
-        assertEquals("Ares TB" , mockCategory.getCategoryName());
-
+        assertEquals(result.toString() , mockCategoryList.toString());
         verify(client).target(eq("http://localhost:4455/api/categories" + "/" + mockLine));
         verify(webTarget).request(MediaType.APPLICATION_JSON);
         verify(builder).get();

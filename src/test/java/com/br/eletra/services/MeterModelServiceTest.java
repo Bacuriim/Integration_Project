@@ -4,6 +4,8 @@ import com.br.eletra.dto.CategoryDTO;
 import com.br.eletra.dto.LineDTO;
 import com.br.eletra.dto.ModelDTO;
 import com.br.eletra.service.MeterModelService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +17,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -47,24 +50,24 @@ public class MeterModelServiceTest {
     }
 
     @Test
-    public void getAllMeterModelsAndConvertToString() {
-        String jsonResponse = "[\n" + "  {\n" + "    \"id\": 1,\n" + "    \"modelName\": \"Cronos 6001-A\",\n" + "    \"category\": \"Cronos Old\"\n" + "  },\n" + "  {\n" + "    \"id\": 2,\n" + "    \"modelName\": \"Cronos 6003\",\n" + "    \"category\": \"Cronos Old\"\n" + "  },\n" + "  {\n" + "    \"id\": 3,\n" + "    \"modelName\": \"Cronos 7023\",\n" + "    \"category\": \"Cronos Old\"\n" + "  },\n" + "  {\n" + "    \"id\": 4,\n" + "    \"modelName\": \"Cronos 6021L\",\n" + "    \"category\": \"Cronos L\"\n" + "  },\n" + "  {\n" + "    \"id\": 5,\n" + "    \"modelName\": \"Cronos 7023L\",\n" + "    \"category\": \"Cronos L\"\n" + "  },\n" + "  {\n" + "    \"id\": 6,\n" + "    \"modelName\": \"Cronos 6001-NG\",\n" + "    \"category\": \"Cronos NG\"\n" + "  },\n" + "  {\n" + "    \"id\": 7,\n" + "    \"modelName\": \"Cronos 6003-NG\",\n" + "    \"category\": \"Cronos NG\"\n" + "  },\n" + "  {\n" + "    \"id\": 8,\n" + "    \"modelName\": \"Cronos 6021-NG\",\n" + "    \"category\": \"Cronos NG\"\n" + "  },\n" + "  {\n" + "    \"id\": 9,\n" + "    \"modelName\": \"Cronos 6031-NG\",\n" + "    \"category\": \"Cronos NG\"\n" + "  },\n" + "  {\n" + "    \"id\": 10,\n" + "    \"modelName\": \"Cronos 7021-NG\",\n" + "    \"category\": \"Cronos NG\"\n" + "  },\n" + "  {\n" + "    \"id\": 11,\n" + "    \"modelName\": \"Cronos 7023-NG\",\n" + "    \"category\": \"Cronos NG\"\n" + "  },\n" + "  {\n" + "    \"id\": 12,\n" + "    \"modelName\": \"Ares 7021\",\n" + "    \"category\": \"Ares TB\"\n" + "  },\n" + "  {\n" + "    \"id\": 13,\n" + "    \"modelName\": \"Ares 7031\",\n" + "    \"category\": \"Ares TB\"\n" + "  },\n" + "  {\n" + "    \"id\": 14,\n" + "    \"modelName\": \"Ares 7023\",\n" + "    \"category\": \"Ares TB\"\n" + "  },\n" + "  {\n" + "    \"id\": 15,\n" + "    \"modelName\": \"Ares 8023 15\",\n" + "    \"category\": \"Ares THS\"\n" + "  },\n" + "  {\n" + "    \"id\": 16,\n" + "    \"modelName\": \"Ares 8023 200\",\n" + "    \"category\": \"Ares THS\"\n" + "  },\n" + "  {\n" + "    \"id\": 17,\n" + "    \"modelName\": \"Ares 8023 2,5\",\n" + "    \"category\": \"Ares THS\"\n" + "  }\n" + "]";
-        LineDTO mockLine = new LineDTO("Ares" , (short) 1);
-        CategoryDTO mockCategory = new CategoryDTO("AresTB" , (short) 1);
+    public void getAllMeterModelsAndConvertToStringTest() {
+        // Given
+        String jsonResponse = "[{\"id\":1,\"modelName\":\"Cronos 6001-A\",\"category\":\"Cronos Old\"},{\"id\": 2,\"modelName\":\"Cronos 6003\",\"category\":\"Cronos Old\"},{\"id\":3,\"modelName\":\"Cronos 7023\",\"category\":\"Cronos Old\"},{\"id\":4,\"modelName\":\"Cronos 6021L\",\"category\":\"Cronos L\"},{\"id\":5,\"modelName\":\"Cronos 7023L\",\"category\":\"Cronos L\"},{\"id\":6,\"modelName\":\"Cronos 6001-NG\",\"category\":\"Cronos NG\"},{\"id\":7,\"modelName\":\"Cronos 6003-NG\",\"category\":\"Cronos NG\"},{\"id\":8,\"modelName\":\"Cronos 6021-NG\",\"category\":\"Cronos NG\"},{\"id\":9,\"modelName\":\"Cronos 6031-NG\",\"category\":\"Cronos NG\"},{\"id\":10,\"modelName\":\"Cronos 7021-NG\",\"category\":\"Cronos NG\"},{\"id\":11,\"modelName\":\"Cronos 7023-NG\",\"category\":\"Cronos NG\"},{\"id\":12,\"modelName\":\"Ares 7021\",\"category\":\"Ares TB\"},{\"id\":13,\"modelName\":\"Ares 7031\",\"category\":\"Ares TB\"},{\"id\":14,\"modelName\":\"Ares 7023\",\"category\":\"Ares TB\"},{\"id\":15,\"modelName\":\"Ares 8023 15\",\"category\":\"Ares THS\"},{\"id\":16,\"modelName\":\"Ares 8023 200\",\"category\":\"Ares THS\"},{\"id\":17,\"modelName\":\"Ares 8023 2,5\",\"category\":\"Ares THS\"}]";
+        CategoryDTO mockCategory = new CategoryDTO("Ares%20TB" , (short) 1);
+        Gson mockGson = new Gson();
+        Type mockModelListType = new TypeToken<List<ModelDTO>>() {
+        }.getType();
 
-
+        // When
         when(response.readEntity(String.class)).thenReturn(jsonResponse);
-
         List<ModelDTO> result = service.getAllMeterModels(mockCategory);
+        List<ModelDTO> mockList = mockGson.fromJson(response.readEntity(String.class), mockModelListType);
 
+        //Then
         assertNotNull(result);
         assertEquals(17 , result.size());
-
-        ModelDTO mockModel = new ModelDTO("Ares 7021" , (short) 12);
-        assertEquals(12 , mockModel.getId());
-        assertEquals("Ares 7021" , mockModel.getModelName());
-
-        verify(client).target(eq("http://localhost:4455/api/models" + "/" + mockCategory.getCategoryName()));
+        assertEquals(result.toString() , mockList.toString());
+        verify(client).target(eq("http://localhost:4455/api/models" + "/" + mockCategory));
         verify(webTarget).request(MediaType.APPLICATION_JSON);
         verify(builder).get();
     }

@@ -42,7 +42,7 @@ public class ControllerMain implements Initializable {
         comboBoxSelect();
     }
 
-    public void comboBoxSelect() {
+    protected void comboBoxSelect() {
         List<LineDTO> lineList = meterLineService.getAllMeterLines();
         cbbLine.setItems(FXCollections.observableArrayList(lineList));
         cbbLine.valueProperty().addListener(((observable, oldValue, newValue) -> openTreeView(newValue)));
