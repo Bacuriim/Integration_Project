@@ -14,7 +14,7 @@ public class LineDTO {
         this.lineName = String.valueOf(lineName);
     }
 
-    public String toString() {
+		public String toString() {
         return lineName;
     }
 
