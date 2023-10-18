@@ -51,10 +51,10 @@ public class MeterLineServiceTest {
         when(response.readEntity(String.class)).thenReturn(jsonResponse);
         Type mockLineListType = new TypeToken<List<LineDTO>>() {
         }.getType();
+        List<LineDTO> mockList = mockGson.fromJson(response.readEntity(String.class) , mockLineListType);
 
         // When
         List<LineDTO> result = service.getAllMeterLines();
-        List<LineDTO> mockList = mockGson.fromJson(response.readEntity(String.class) , mockLineListType);
 
         // Then
         assertNotNull(result);

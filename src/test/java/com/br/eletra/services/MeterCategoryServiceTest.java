@@ -58,10 +58,10 @@ public class MeterCategoryServiceTest {
         when(response.readEntity(String.class)).thenReturn(jsonResponse);
         Type mockCategoryListType = new TypeToken<List<CategoryDTO>>() {
         }.getType();
+        List<CategoryDTO> mockCategoryList = mockGson.fromJson(response.readEntity(String.class) , mockCategoryListType);
 
         // When
         List<CategoryDTO> result = service.getAllMeterCategories(mockLine);
-        List<CategoryDTO> mockCategoryList = mockGson.fromJson(response.readEntity(String.class) , mockCategoryListType);
 
         // Then
         assertNotNull(result);
@@ -79,14 +79,13 @@ public class MeterCategoryServiceTest {
         String jsonResponse = "[{\"id\":2,\"categoryName\":\"Cronos L\",\"line\":\"Cronos\"},{\"id\":3,\"categoryName\":\"Cronos NG\",\"line\": \"Cronos\"},{\"id\": 4,\"categoryName\":\"Ares TB\",\"line\": \"Ares\"},{\"id\":5,\"categoryName\":\"Ares THS\",\"line\":\"Ares\"},{\"id\":1,\"categoryName\":\"Cronos Old\",\"line\": \"Cronos\"}]";
         LineDTO mockLine = new LineDTO("1" , (short) 1);
         Gson mockGson = new Gson();
+        when(response.readEntity(String.class)).thenReturn(jsonResponse);
         Type mockCategoryListType = new TypeToken<List<CategoryDTO>>() {
         }.getType();
-
+        List<CategoryDTO> mockCategoryList = mockGson.fromJson(response.readEntity(String.class) , mockCategoryListType);
 
         // When
-        when(response.readEntity(String.class)).thenReturn(jsonResponse);
         List<CategoryDTO> result = service.getAllMeterCategories(mockLine);
-        List<CategoryDTO> mockCategoryList = mockGson.fromJson(response.readEntity(String.class) , mockCategoryListType);
 
         // Then
         assertNotNull(result);

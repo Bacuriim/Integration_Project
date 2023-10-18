@@ -58,10 +58,10 @@ public class MeterModelServiceTest {
         when(response.readEntity(String.class)).thenReturn(jsonResponse);
         Type mockModelListType = new TypeToken<List<ModelDTO>>() {
         }.getType();
+        List<ModelDTO> mockList = mockGson.fromJson(response.readEntity(String.class), mockModelListType);
 
         // When
         List<ModelDTO> result = service.getAllMeterModels(mockCategory);
-        List<ModelDTO> mockList = mockGson.fromJson(response.readEntity(String.class), mockModelListType);
 
         //Then
         assertNotNull(result);
