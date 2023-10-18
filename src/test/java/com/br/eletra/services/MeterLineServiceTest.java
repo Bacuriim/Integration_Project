@@ -48,11 +48,11 @@ public class MeterLineServiceTest {
         // Given
         String jsonResponse = "[{\"id\":1,\"name\":\"Ares\"},{\"id\":2,\"name\":\"Cronos\"}]";
         Gson mockGson = new Gson();
+        when(response.readEntity(String.class)).thenReturn(jsonResponse);
         Type mockLineListType = new TypeToken<List<LineDTO>>() {
         }.getType();
 
         // When
-        when(response.readEntity(String.class)).thenReturn(jsonResponse);
         List<LineDTO> result = service.getAllMeterLines();
         List<LineDTO> mockList = mockGson.fromJson(response.readEntity(String.class) , mockLineListType);
 
